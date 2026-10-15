@@ -8,7 +8,6 @@ const people=[
  {name:"Sofia",flag:"🇪🇸",lang:"Español · English",online:false},
  {name:"Aiko",flag:"🇯🇵",lang:"日本語 · English",online:true}
 ];
-
 function App(){
  const [tab,setTab]=useState("home"),[vip,setVip]=useState(false),[query,setQuery]=useState("");
  const nav=(x)=>setTab(x);
