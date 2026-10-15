@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useState } from "react"
 import { createRoot } from "react-dom/client";
 import "./style.css";
 
@@ -24,6 +24,14 @@ function App() {
   ]);
 
   const nav = (x) => setTab(x);
+
+useEffect(() => {
+  try {
+    localStorage.setItem("univa-messages", JSON.stringify(messages));
+  } catch (error) {
+    console.error("Error saving UNIVA messages:", error);
+  }
+}, [messages]);
 
   const title = {
     home: "Welcome to UNIVA",
