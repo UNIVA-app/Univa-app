@@ -259,7 +259,7 @@ return (
               </ul>  
               <button  
                 className="primary"  
-                onClick={() => setVip(p)} 
+                onClick={() => alert("Paiement bientôt disponible pour VIP " + p)}
               >  
                 {vip === p ? "Selected ✓" : "Choose " + p}  
               </button>  
