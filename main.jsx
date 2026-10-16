@@ -45,6 +45,8 @@ online: true
 function App() {
 const [tab, setTab] = useState("home");
 const [vip, setVip] = useState("");
+  const [paymentMethod, setPaymentMethod] = useState("Wave");
+  const [showPayment, setShowPayment] = useState(false);
 const [query, setQuery] = useState("");
 const [message, setMessage] = useState("");
 
@@ -259,13 +261,55 @@ return (
               </ul>  
               <button  
                 className="primary"  
-                onClick={() => alert("Paiement bientôt disponible pour VIP " + p)}
+                onClick={() => {
+  setVip(p);
+  setShowPayment(true);
+}}
               >  
                 {vip === p ? "Selected ✓" : "Choose " + p}  
               </button>  
             </article>  
           ))}  
-        </div>  
+        </div> 
+        {showPayment && (
+  <div className="plan">
+    <h2>UNIVA VIP Payment</h2>
+
+    <p>
+      Selected plan: VIP {vip}
+    </p>
+
+    <h3>
+      {vip === "Explorer"
+        ? "2 000"
+        : vip === "Connect"
+        ? "5 000"
+        : "8 000"} FCFA / month
+    </h3>
+
+    <label>Choose your payment method</label>
+
+    <select
+      value={paymentMethod}
+      onChange={(e) => setPaymentMethod(e.target.value)}
+    >
+      <option value="Wave">Wave</option>
+      <option value="Orange Money">Orange Money</option>
+    </select>
+
+    <p>
+      Payments are not available yet.
+      This is a preview only.
+    </p>
+
+    <button
+      className="secondary"
+      onClick={() => setShowPayment(false)}
+    >
+      Back
+    </button>
+  </div>
+)}
       </section>  
     )}  
 
