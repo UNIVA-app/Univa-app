@@ -6,10 +6,42 @@ import { createRoot } from "react-dom/client";
 import "./style.css";
 
 const people = [
-  { name: "Mina", flag: "🇰🇷", lang: "한국어 · English", online: true },
-  { name: "Lina", flag: "🇨🇳", lang: "中文 · English", online: true },
-  { name: "Sofia", flag: "🇪🇸", lang: "Español · English", online: false },
-  { name: "Aiko", flag: "🇯🇵", lang: "日本語 · English", online: true }
+  {
+    name: "Mina",
+    flag: "🇰🇷",
+    country: "South Korea",
+    lang: "한국어 · English",
+    learning: "French",
+    bio: "I love music, languages and discovering new cultures 🌸",
+    online: true
+  },
+  {
+    name: "Lina",
+    flag: "🇨🇳",
+    country: "China",
+    lang: "中文 · English",
+    learning: "French",
+    bio: "Let's learn languages and become friends! 🐼",
+    online: true
+  },
+  {
+    name: "Sofia",
+    flag: "🇪🇸",
+    country: "Spain",
+    lang: "Español · English",
+    learning: "Chinese",
+    bio: "I enjoy travelling, art and meeting new people 🎨",
+    online: false
+  },
+  {
+    name: "Aiko",
+    flag: "🇯🇵",
+    country: "Japan",
+    lang: "日本語 · English",
+    learning: "French",
+    bio: "Here to practice languages and share Japanese culture 🌷",
+    online: true
+  }
 ];
 
 function App() {
@@ -279,17 +311,26 @@ useEffect(() => {
   );
 }
 
+
 function Person({ p, onClick }) {
   return (
     <button className="person" onClick={onClick}>
       <div className="avatar small">{p.name[0]}</div>
-      <div>
+
+      <div className="person-info">
         <b>{p.flag} {p.name}</b>
-        <span>{p.lang}</span>
+        <span>📍 {p.country}</span>
+        <span>🗣️ {p.lang}</span>
+        <span>📚 Learning: {p.learning}</span>
+        <span className="person-bio">{p.bio}</span>
       </div>
-      <i className={p.online ? "online" : ""}>●</i>
+
+      <i className={p.online ? "online" : ""}>
+        {p.online ? "Online" : "Offline"}
+      </i>
     </button>
   );
 }
+
 
 createRoot(document.getElementById("root")).render(<App />);
