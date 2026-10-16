@@ -17,13 +17,27 @@ function App() {
   const [vip, setVip] = useState(false);
   const [query, setQuery] = useState("");
   const [message, setMessage] = useState("");
-  const [messages, setMessages] = useState([
+  
+const [messages, setMessages] = useState(() => {
+  try {
+    const savedMessages = localStorage.getItem("univa-messages");
+
+    if (savedMessages) {
+      return JSON.parse(savedMessages);
+    }
+  } catch (error) {
+    console.error("Error loading UNIVA messages:", error);
+  }
+
+  return [
     { text: "Hi! Welcome to UNIVA 🌍", mine: false },
     {
       text: "Hello! I'd love to practice languages together 😊",
       mine: true
     }
-  ]);
+  ];
+});
+
 
   const nav = (x) => setTab(x);
 
