@@ -44,7 +44,7 @@ online: true
 
 function App() {
 const [tab, setTab] = useState("home");
-const [vip, setVip] = useState(false);
+const [vip, setVip] = useState("");
 const [query, setQuery] = useState("");
 const [message, setMessage] = useState("");
 
@@ -243,7 +243,8 @@ return (
         <div className="plans">  
           {["Explorer", "Connect", "Premium"].map((p, i) => (  
             <article className="plan" key={p}>  
-              <h2>{p}</h2>  
+              <h2>VIP {p}</h2>  
+              <h3>{i === 0 ? "2 000" : i === 1 ? "5 000" : "8 000"} FCFA / mois</h3>
               <p>  
                 {i === 0  
                   ? "More discovery tools"  
@@ -258,9 +259,9 @@ return (
               </ul>  
               <button  
                 className="primary"  
-                onClick={() => setVip(true)}  
+                onClick={() => setVip(p)} 
               >  
-                {vip ? "Activated" : "Choose " + p}  
+                {vip === p ? "Selected ✓" : "Choose " + p}  
               </button>  
             </article>  
           ))}  
