@@ -168,11 +168,11 @@ return (
         />  
         <div className="people">  
           {people  
-            .filter((p) =>  
-              (p.name + p.lang)  
-                .toLowerCase()  
-                .includes(query.toLowerCase())  
-            )  
+            .filter((p) =>
+  (p.name + p.lang + p.country + p.learning)
+    .toLowerCase()
+    .includes(query.toLowerCase())
+)
             .map((p) => (  
               <Person  
                 key={p.name}  
