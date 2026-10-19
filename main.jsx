@@ -450,18 +450,41 @@ return (
             <article className="plan" key={p}>  
               <h2>VIP {p}</h2>  
               <h3>{i === 0 ? "2 000" : i === 1 ? "5 000" : "8 000"} FCFA / mois</h3>
-              <p>  
-                {i === 0  
-                  ? "More discovery tools"  
-                  : i === 1  
-                  ? "Advanced connection & messaging"  
-                  : "Full VIP experience"}  
-              </p>  
-              <ul>  
-                <li>Extra access</li>  
-                <li>Enhanced profile tools</li>  
-                <li>Priority features</li>  
-              </ul>  
+              
+<p>
+  {i === 0
+    ? "Discover languages and cultures more easily."
+    : i === 1
+    ? "Build your international network."
+    : "Enjoy the complete UNIVA VIP experience."}
+</p>
+
+<ul>
+  {(i === 0
+    ? [
+        "Exclusive VIP badge",
+        "Advanced language and country discovery",
+        "Enhanced translation access",
+        "Ad-free experience"
+      ]
+    : i === 1
+    ? [
+        "All Explorer benefits",
+        "Advanced search filters",
+        "More saved favorite profiles",
+        "Extra profile customization"
+      ]
+    : [
+        "All Connect benefits",
+        "Priority access to language rooms",
+        "Advanced profile statistics",
+        "Exclusive profile customization"
+      ]
+  ).map((feature) => (
+    <li key={feature}>{feature}</li>
+  ))}
+</ul>
+  
               <button  
                 className="primary"  
                 onClick={() => {
