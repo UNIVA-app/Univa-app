@@ -44,6 +44,10 @@ online: true
 
 function App() {
 const [tab, setTab] = useState("home");
+  const [profileName, setProfileName] = useState("UNIVA member");
+const [profileLanguages, setProfileLanguages] = useState("French 🇫🇷 · English 🇬🇧 · Learning Chinese 🇨🇳");
+const [profilePhoto, setProfilePhoto] = useState("");
+const [showEditProfile, setShowEditProfile] = useState(false);
 const [vip, setVip] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("Wave");
   const [showPayment, setShowPayment] = useState(false);
@@ -215,21 +219,92 @@ return (
       </section>  
     )}  
 
-    {tab === "profile" && (  
-      <section>  
-        <div className="profile">  
-          <div className="avatar">M</div>  
-          <h1>My UNIVA profile</h1>  
-          <p>French 🇫🇷 · English 🇬🇧 · Learning Chinese 🇨🇳</p>  
-          <button className="secondary">Edit profile</button>  
-        </div>  
-        <div className="stats">  
-          <b>128<br /><small>Friends</small></b>  
-          <b>12<br /><small>Languages</small></b>  
-          <b>4.9★<br /><small>Trust</small></b>  
-        </div>  
-      </section>  
-    )}  
+    
+{tab === "profile" && (
+  <section>
+    <div className="profile">
+      <div className="avatar">
+        {profilePhoto ? (
+          <img
+            src={profilePhoto}
+            alt="Profile"
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              borderRadius: "50%"
+            }}
+          />
+        ) : (
+          profileName.charAt(0).toUpperCase()
+        )}
+      </div>
+
+      <h1>{profileName}</h1>
+      <p>{profileLanguages}</p>
+
+      <button
+        className="secondary"
+        onClick={() => setShowEditProfile(!showEditProfile)}
+      >
+        {showEditProfile ? "Cancel" : "Edit profile"}
+      </button>
+    </div>
+
+    {showEditProfile && (
+      <div className="plan">
+        <h2>Edit my profile</h2>
+
+        <label>My name</label>
+        <input
+          value={profileName}
+          onChange={(e) => setProfileName(e.target.value)}
+          placeholder="Enter your name"
+        />
+
+        <label>Languages</label>
+        <input
+          value={profileLanguages}
+          onChange={(e) => setProfileLanguages(e.target.value)}
+          placeholder="Your languages"
+        />
+
+        <label>Profile photo</label>
+        <input
+          type="file"
+          accept="image/*"
+          onChange={(e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            if (file.size > 2 * 1024 * 1024) {
+              alert("Please choose a photo smaller than 2 MB.");
+              e.target.value = "";
+              return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = () => setProfilePhoto(reader.result);
+            reader.readAsDataURL(file);
+          }}
+        />
+
+        <button
+          className="primary"
+          onClick={() => setShowEditProfile(false)}
+        >
+          Save profile
+        </button>
+      </div>
+    )}
+
+    <div className="stats">
+      <b>128<br /><small>Friends</small></b>
+      <b>12<br /><small>Languages</small></b>
+      <b>4.9★<br /><small>Trust</small></b>
+    </div>
+  </section>
+)}
 
     {tab === "vip" && (  
       <section>  
