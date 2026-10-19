@@ -44,9 +44,43 @@ online: true
 
 function App() {
 const [tab, setTab] = useState("home");
-  const [profileName, setProfileName] = useState("UNIVA member");
-const [profileLanguages, setProfileLanguages] = useState("French 🇫🇷 · English 🇬🇧 · Learning Chinese 🇨🇳");
-const [profilePhoto, setProfilePhoto] = useState("");
+  const [profileName, setProfileName] = useState(() => {
+  try {
+    const saved = JSON.parse(localStorage.getItem("univa-profile") || "{}");
+    return saved.profileName || "UNIVA member";
+  } catch {
+    return "UNIVA member";
+  }
+});
+  
+
+
+
+const [spokenLanguages, setSpokenLanguages] = useState(() => {
+  try {
+    const saved = JSON.parse(localStorage.getItem("univa-profile") || "{}");
+    return saved.spokenLanguages || "French 🇫🇷 · English 🇬🇧";
+  } catch {
+    return "French 🇫🇷 · English 🇬🇧";
+  }
+});
+const [learningLanguages, setLearningLanguages] = useState(() => {
+  try {
+    const saved = JSON.parse(localStorage.getItem("univa-profile") || "{}");
+    return saved.learningLanguages || "Chinese 🇨🇳";
+  } catch {
+    return "Chinese 🇨🇳";
+  }
+});
+
+const [profilePhoto, setProfilePhoto] = useState(() => {
+  try {
+    const saved = JSON.parse(localStorage.getItem("univa-profile") || "{}");
+    return saved.profilePhoto || "";
+  } catch {
+    return "";
+  }
+});
 const [showEditProfile, setShowEditProfile] = useState(false);
 const [vip, setVip] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("Wave");
@@ -85,6 +119,21 @@ localStorage.setItem("univa-messages", JSON.stringify(messages));
 console.error("Error saving UNIVA messages:", error);
 }
 }, [messages]);
+  useEffect(() => {
+  try {
+    localStorage.setItem(
+      "univa-profile",
+      JSON.stringify({
+        profileName,
+        spokenLanguages,
+        learningLanguages,
+        profilePhoto
+      })
+    );
+  } catch (error) {
+    console.error("Error saving UNIVA profile:", error);
+  }
+}, [profileName, spokenLanguages, learningLanguages, profilePhoto]);
 
 const title = {
 home: "Welcome to UNIVA",
@@ -308,7 +357,10 @@ return (
       </div>
 
       <h1>{profileName}</h1>
-      <p>{profileLanguages}</p>
+      
+<p>🗣️ Languages I speak: {spokenLanguages}</p>
+<p>📚 Languages I want to learn: {learningLanguages}</p>
+
 
       <button
         className="secondary"
@@ -329,12 +381,21 @@ return (
           placeholder="Enter your name"
         />
 
-        <label>Languages</label>
-        <input
-          value={profileLanguages}
-          onChange={(e) => setProfileLanguages(e.target.value)}
-          placeholder="Your languages"
-        />
+        
+<label>Languages I speak</label>
+<input
+  value={spokenLanguages}
+  onChange={(e) => setSpokenLanguages(e.target.value)}
+  placeholder="French, English, Chinese..."
+/>
+
+<label>Languages I want to learn</label>
+<input
+  value={learningLanguages}
+  onChange={(e) => setLearningLanguages(e.target.value)}
+  placeholder="Chinese, Korean, Japanese..."
+/>
+
 
         <label>Profile photo</label>
         <input
