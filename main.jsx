@@ -463,7 +463,21 @@ onToggleFavorite={toggleFavorite}
 
     {tab === "messages" && (  
       <section>  
-        <h1>{title}</h1>  
+        <h1>{title}</h1> 
+        
+<button
+  className="primary"
+  onClick={() => {
+    setGiftContext("private");
+    setGiftNotice("");
+    setShowGiftShop(true);
+  }}
+>
+  🎁 Send a gift
+</button>
+
+<p>💰 Your coins: {coins} FC</p>
+
 
         <div className="chat">  
           {messages.map((m, i) => (  
