@@ -421,6 +421,46 @@ onToggleFavorite={toggleFavorite}
 )}
  
 
+{showGiftShop && (
+  <div className="plan">
+    <h2>🎁 UNIVA Gift Shop</h2>
+    <p>💰 Your coins: {coins} FC</p>
+
+    {giftNotice && <p>{giftNotice}</p>}
+
+    <div className="cards">
+      {giftCatalog.map((gift) => (
+        <article key={gift.id}>
+          <h2>{gift.emoji}</h2>
+          <b>{gift.name}</b>
+          <p>{gift.price} FC</p>
+
+          <button
+            className="primary"
+            onClick={() =>
+              sendGift(
+                gift,
+                giftContext === "private"
+                  ? "Mina"
+                  : "UNIVA Group"
+              )
+            }
+          >
+            Send gift 🎁
+          </button>
+        </article>
+      ))}
+    </div>
+
+    <button
+      className="secondary"
+      onClick={() => setShowGiftShop(false)}
+    >
+      Close
+    </button>
+  </div>
+)}
+
     {tab === "messages" && (  
       <section>  
         <h1>{title}</h1>  
