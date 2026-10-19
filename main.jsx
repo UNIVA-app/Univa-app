@@ -88,6 +88,36 @@ const [vip, setVip] = useState("");
 const [query, setQuery] = useState("");
   const [languageFilter, setLanguageFilter] = useState("all");
 const [message, setMessage] = useState("");
+  
+const [favorites, setFavorites] = useState(() => {
+  try {
+    return JSON.parse(
+      localStorage.getItem("univa-favorites") || "[]"
+    );
+  } catch {
+    return [];
+  }
+});
+
+useEffect(() => {
+  try {
+    localStorage.setItem(
+      "univa-favorites",
+      JSON.stringify(favorites)
+    );
+  } catch (error) {
+    console.error("Error saving UNIVA favorites:", error);
+  }
+}, [favorites]);
+
+const toggleFavorite = (name) => {
+  setFavorites((previous) =>
+    previous.includes(name)
+      ? previous.filter((item) => item !== name)
+      : [...previous, name]
+  );
+};
+
 
 const [messages, setMessages] = useState(() => {
 try {
@@ -206,7 +236,9 @@ return (
             <Person  
               key={p.name}  
               p={p}  
-              onClick={() => nav("messages")}  
+              onClick={() => nav("messages")} 
+             isFavorite={favorites.includes(p.name)}
+onToggleFavorite={toggleFavorite} 
             />  
           ))}  
         </div>  
@@ -274,13 +306,17 @@ return (
 
           return matchesSearch && matchesLanguage;
         })
-        .map((p) => (
-          <Person
-            key={p.name}
-            p={p}
-            onClick={() => nav("messages")}
-          />
-        ))}
+        
+.map((p) => (
+  <Person
+    key={p.name}
+    p={p}
+    onClick={() => nav("messages")}
+    isFavorite={favorites.includes(p.name)}
+    onToggleFavorite={toggleFavorite}
+  />
+))
+}
     </div>
 
     {people.filter((p) => {
@@ -582,9 +618,9 @@ return (
 );
 }
 
-function Person({ p, onClick }) {
+function Person({ p, onClick, isFavorite, onToggleFavorite }) {
 return (
-<button className="person" onClick={onClick}>
+<div className="person">
 <div className="avatar small">{p.name[0]}</div>
 
 <div className="person-info">  
@@ -595,10 +631,32 @@ return (
     <span className="person-bio">{p.bio}</span>  
   </div>  
 
-  <i className={p.online ? "online" : ""}>  
-    {p.online ? "Online" : "Offline"}  
-  </i>  
+ 
+<i className={p.online ? "online" : ""}>
+  {p.online ? "Online" : "Offline"}
+</i>
+
+<button
+  type="button"
+  className="secondary"
+  onClick={(e) => {
+    e.stopPropagation();
+    onToggleFavorite(p.name);
+  }}
+>
+  {isFavorite ? "❤️ Favori" : "♡ Ajouter aux favoris"}
 </button>
+  
+<button
+  type="button"
+  className="secondary"
+  onClick={onClick}
+>
+  💬 Message
+</button>
+
+ 
+</div>
 
 );
 }
