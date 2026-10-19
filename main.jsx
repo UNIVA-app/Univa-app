@@ -97,6 +97,18 @@ const giftCatalog = [
   { id: "diamond", name: "Diamant", emoji: "💎", price: 500 },
   { id: "crown", name: "Couronne VIP", emoji: "👑", price: 1000 }
 ];
+  
+const coinPacks = [
+  { id: "mini", name: "Mini", priceFCFA: 100, baseUC: 100, bonusUC: 0 },
+  { id: "starter", name: "Starter", priceFCFA: 500, baseUC: 500, bonusUC: 25 },
+  { id: "popular", name: "Popular", priceFCFA: 1000, baseUC: 1000, bonusUC: 100 },
+  { id: "premium", name: "Premium", priceFCFA: 2000, baseUC: 2000, bonusUC: 250 },
+  { id: "pro", name: "Pro", priceFCFA: 5000, baseUC: 5000, bonusUC: 750 },
+  { id: "elite", name: "Elite", priceFCFA: 10000, baseUC: 10000, bonusUC: 2000 },
+  { id: "royal", name: "Royal", priceFCFA: 25000, baseUC: 25000, bonusUC: 5000 },
+  { id: "legend", name: "Legend", priceFCFA: 50000, baseUC: 50000, bonusUC: 10000 }
+];
+
 
 const [coins, setCoins] = useState(() => {
   try {
