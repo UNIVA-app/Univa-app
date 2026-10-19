@@ -89,6 +89,85 @@ const [query, setQuery] = useState("");
   const [languageFilter, setLanguageFilter] = useState("all");
 const [message, setMessage] = useState("");
   
+const giftCatalog = [
+  { id: "rose", name: "Rose", emoji: "🌹", price: 10 },
+  { id: "heart", name: "Cœur", emoji: "💖", price: 50 },
+  { id: "teddy", name: "Peluche", emoji: "🧸", price: 100 },
+  { id: "bouquet", name: "Bouquet", emoji: "💐", price: 200 },
+  { id: "diamond", name: "Diamant", emoji: "💎", price: 500 },
+  { id: "crown", name: "Couronne VIP", emoji: "👑", price: 1000 }
+];
+
+const [coins, setCoins] = useState(() => {
+  try {
+    const saved = localStorage.getItem("univa-coins");
+    return saved === null ? 1000 : JSON.parse(saved);
+  } catch {
+    return 1000;
+  }
+});
+
+const [giftHistory, setGiftHistory] = useState(() => {
+  try {
+    return JSON.parse(
+      localStorage.getItem("univa-gift-history") || "[]"
+    );
+  } catch {
+    return [];
+  }
+});
+
+const [showGiftShop, setShowGiftShop] = useState(false);
+const [giftContext, setGiftContext] = useState("private");
+const [giftNotice, setGiftNotice] = useState("");
+
+useEffect(() => {
+  try {
+    localStorage.setItem("univa-coins", JSON.stringify(coins));
+  } catch (error) {
+    console.error("Error saving UNIVA coins:", error);
+  }
+}, [coins]);
+
+useEffect(() => {
+  try {
+    localStorage.setItem(
+      "univa-gift-history",
+      JSON.stringify(giftHistory)
+    );
+  } catch (error) {
+    console.error("Error saving UNIVA gifts:", error);
+  }
+}, [giftHistory]);
+
+const sendGift = (gift, recipient) => {
+  if (coins < gift.price) {
+    setGiftNotice("Not enough coins! 🌟");
+    return;
+  }
+
+  setCoins((previous) => previous - gift.price);
+
+  setGiftHistory((previous) => [
+    ...previous,
+    {
+      id: Date.now().toString(),
+      giftId: gift.id,
+      giftName: gift.name,
+      emoji: gift.emoji,
+      price: gift.price,
+      recipient,
+      context: giftContext,
+      date: new Date().toISOString()
+    }
+  ]);
+
+  setGiftNotice(
+    `${gift.emoji} ${gift.name} sent to ${recipient}!`
+  );
+};
+
+  
 const [favorites, setFavorites] = useState(() => {
   try {
     return JSON.parse(
