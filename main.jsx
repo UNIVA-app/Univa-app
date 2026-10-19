@@ -130,6 +130,8 @@ const [giftHistory, setGiftHistory] = useState(() => {
 });
 
 const [showGiftShop, setShowGiftShop] = useState(false);
+  const [showCoinShop, setShowCoinShop] = useState(false);
+const [selectedCoinPack, setSelectedCoinPack] = useState(null);
 const [giftContext, setGiftContext] = useState("private");
 const [giftNotice, setGiftNotice] = useState("");
 
@@ -433,10 +435,92 @@ onToggleFavorite={toggleFavorite}
 )}
  
 
+{showCoinShop && (
+  <div className="plan">
+    <h2>🪙 Buy UNIVA Coins</h2>
+    <p>Your balance: {coins} UC</p>
+
+    <p>
+      Choose a pack. Payments are not active yet.
+    </p>
+
+    <div className="cards">
+      {coinPacks.map((pack) => (
+        <article key={pack.id}>
+          <h3>{pack.name}</h3>
+
+          <p>
+            {pack.baseUC + pack.bonusUC} UC
+          </p>
+
+          {pack.bonusUC > 0 && (
+            <p>🎁 Bonus: {pack.bonusUC} UC</p>
+          )}
+
+          <b>{pack.priceFCFA.toLocaleString("fr-FR")} FCFA</b>
+
+          <button
+            className="primary"
+            onClick={() => setSelectedCoinPack(pack)}
+          >
+            Choose pack
+          </button>
+        </article>
+      ))}
+    </div>
+
+    {selectedCoinPack && (
+      <div className="plan">
+        <h3>Payment preview</h3>
+
+        <p>
+          Pack: {selectedCoinPack.name}
+        </p>
+
+        <p>
+          Amount: {selectedCoinPack.priceFCFA.toLocaleString("fr-FR")} FCFA
+        </p>
+
+        <label>Payment method</label>
+
+        <select
+          value={paymentMethod}
+          onChange={(e) => setPaymentMethod(e.target.value)}
+        >
+          <option value="Wave">Wave</option>
+          <option value="Orange Money">Orange Money</option>
+        </select>
+
+        <p>
+          This is a preview only. No payment has been made,
+          and no coins have been added.
+        </p>
+
+        <button
+          className="secondary"
+          onClick={() => setSelectedCoinPack(null)}
+        >
+          Back to packs
+        </button>
+      </div>
+    )}
+
+    <button
+      className="secondary"
+      onClick={() => {
+        setShowCoinShop(false);
+        setSelectedCoinPack(null);
+      }}
+    >
+      Close shop
+    </button>
+  </div>
+)}
+
 {showGiftShop && (
   <div className="plan">
     <h2>🎁 UNIVA Gift Shop</h2>
-    <p>💰 Your coins: {coins} FC</p>
+    <p>💰 Your coins: {coins} UC</p>
 
     {giftNotice && <p>{giftNotice}</p>}
 
@@ -445,7 +529,7 @@ onToggleFavorite={toggleFavorite}
         <article key={gift.id}>
           <h2>{gift.emoji}</h2>
           <b>{gift.name}</b>
-          <p>{gift.price} FC</p>
+          <p>{gift.price} UC</p>
 
           <button
             className="primary"
@@ -487,8 +571,17 @@ onToggleFavorite={toggleFavorite}
 >
   🎁 Send a gift
 </button>
+        <button
+  className="secondary"
+  onClick={() => {
+    setShowCoinShop(true);
+    setSelectedCoinPack(null);
+  }}
+>
+  🪙 Buy UC
+</button>
 
-<p>💰 Your coins: {coins} FC</p>
+<p>💰 Your coins: {coins} UC</p>
 
 
         <div className="chat">  
