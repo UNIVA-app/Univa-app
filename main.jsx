@@ -52,6 +52,7 @@ const [vip, setVip] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("Wave");
   const [showPayment, setShowPayment] = useState(false);
 const [query, setQuery] = useState("");
+  const [languageFilter, setLanguageFilter] = useState("all");
 const [message, setMessage] = useState("");
 
 const [messages, setMessages] = useState(() => {
@@ -163,32 +164,98 @@ return (
       </section>  
     )}  
 
-    {tab === "discover" && (  
-      <section>  
-        <h1>{title}</h1>  
-        <input  
-          className="search"  
-          placeholder="Search language, country..."  
-          value={query}  
-          onChange={(e) => setQuery(e.target.value)}  
-        />  
-        <div className="people">  
-          {people  
-            .filter((p) =>
-  (p.name + p.lang + p.country + p.learning)
-    .toLowerCase()
-    .includes(query.toLowerCase())
-)
-            .map((p) => (  
-              <Person  
-                key={p.name}  
-                p={p}  
-                onClick={() => nav("messages")}  
-              />  
-            ))}  
-        </div>  
-      </section>  
-    )}  
+   
+{tab === "discover" && (
+  <section>
+    <h1>{title}</h1>
+
+    <input
+      className="search"
+      placeholder="Search name, country or language..."
+      value={query}
+      onChange={(e) => setQuery(e.target.value)}
+    />
+
+    <label>Filter by language</label>
+    <select
+      value={languageFilter}
+      onChange={(e) => setLanguageFilter(e.target.value)}
+    >
+      <option value="all">All languages</option>
+      <option value="English">English</option>
+      <option value="French">French</option>
+      <option value="Chinese">Chinese</option>
+      <option value="Korean">Korean</option>
+      <option value="Japanese">Japanese</option>
+      <option value="Spanish">Spanish</option>
+    </select>
+
+    <button
+      className="secondary"
+      onClick={() => {
+        setQuery("");
+        setLanguageFilter("all");
+      }}
+    >
+      Clear filters
+    </button>
+
+    <div className="people">
+      {people
+        .filter((p) => {
+          const searchText = (
+            p.name + " " +
+            p.country + " " +
+            p.lang + " " +
+            p.learning + " " +
+            p.bio
+          ).toLowerCase();
+
+          const matchesSearch = searchText.includes(
+            query.trim().toLowerCase()
+          );
+
+          const matchesLanguage =
+            languageFilter === "all" ||
+            (
+              p.lang + " " + p.learning
+            ).toLowerCase().includes(
+              languageFilter.toLowerCase()
+            );
+
+          return matchesSearch && matchesLanguage;
+        })
+        .map((p) => (
+          <Person
+            key={p.name}
+            p={p}
+            onClick={() => nav("messages")}
+          />
+        ))}
+    </div>
+
+    {people.filter((p) => {
+      const searchText = (
+        p.name + " " + p.country + " " +
+        p.lang + " " + p.learning + " " + p.bio
+      ).toLowerCase();
+
+      const matchesSearch = searchText.includes(
+        query.trim().toLowerCase()
+      );
+
+      const matchesLanguage =
+        languageFilter === "all" ||
+        (p.lang + " " + p.learning).toLowerCase()
+          .includes(languageFilter.toLowerCase());
+
+      return matchesSearch && matchesLanguage;
+    }).length === 0 && (
+      <p>No people found. Try another search.</p>
+    )}
+  </section>
+)}
+ 
 
     {tab === "messages" && (  
       <section>  
