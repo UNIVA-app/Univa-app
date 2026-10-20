@@ -44,6 +44,27 @@ online: true
 
 function App() {
 const [tab, setTab] = useState("home");
+  const [profileCountry, setProfileCountry] = useState(() => {
+  try {
+    const saved = JSON.parse(
+      localStorage.getItem("univa-profile") || "{}"
+    );
+    return saved.profileCountry || "";
+  } catch {
+    return "";
+  }
+});
+
+const [profileBio, setProfileBio] = useState(() => {
+  try {
+    const saved = JSON.parse(
+      localStorage.getItem("univa-profile") || "{}"
+    );
+    return saved.profileBio || "";
+  } catch {
+    return "";
+  }
+});
   const [profileName, setProfileName] = useState(() => {
   try {
     const saved = JSON.parse(localStorage.getItem("univa-profile") || "{}");
@@ -243,20 +264,29 @@ console.error("Error saving UNIVA messages:", error);
 }
 }, [messages]);
   useEffect(() => {
-  try {
-    localStorage.setItem(
-      "univa-profile",
-      JSON.stringify({
-        profileName,
-        spokenLanguages,
-        learningLanguages,
-        profilePhoto
-      })
-    );
-  } catch (error) {
-    console.error("Error saving UNIVA profile:", error);
-  }
-}, [profileName, spokenLanguages, learningLanguages, profilePhoto]);
+try {
+localStorage.setItem(
+"univa-profile",
+JSON.stringify({
+profileName,
+spokenLanguages,
+learningLanguages,
+profilePhoto,
+profileCountry,
+profileBio
+})
+);
+} catch (error) {
+console.error("Error saving UNIVA profile:", error);
+}
+}, [
+profileName,
+spokenLanguages,
+learningLanguages,
+profilePhoto,
+profileCountry,
+profileBio
+]);
 
 const title = {
 home: "Welcome to UNIVA",
