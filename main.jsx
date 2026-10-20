@@ -664,6 +664,8 @@ onToggleFavorite={toggleFavorite}
       
 <p>🗣️ Languages I speak: {spokenLanguages}</p>
 <p>📚 Languages I want to learn: {learningLanguages}</p>
+      <p>📍 Country: {profileCountry || "Not set"}</p>
+<p>✍️ Bio: {profileBio || "Add your bio"}</p>
 
 
       <button
@@ -699,6 +701,20 @@ onToggleFavorite={toggleFavorite}
   onChange={(e) => setLearningLanguages(e.target.value)}
   placeholder="Chinese, Korean, Japanese..."
 />
+        <label>My country</label>
+    <input
+      value={profileCountry}
+      onChange={(e) => setProfileCountry(e.target.value)}
+      placeholder="Enter your country"
+    />
+
+    <label>My bio</label>
+    <textarea
+      value={profileBio}
+      onChange={(e) => setProfileBio(e.target.value)}
+      placeholder="Tell people about yourself..."
+      rows={3}
+    />
 
 
         <label>Profile photo</label>
