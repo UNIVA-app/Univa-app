@@ -710,6 +710,11 @@ onToggleFavorite={toggleFavorite}
 <p>🗣️ Languages I speak: {spokenLanguages}</p>
 <p>📚 Languages I want to learn: {learningLanguages}</p>
       <p>📍 Country: {profileCountry || "Not set"}</p>
+      <div className="diamond-wallet">
+  <span>💎 My Diamonds</span>
+  <strong>{diamonds}</strong>
+  <small>Earn diamonds by receiving gifts!</small>
+</div>
 <p>✍️ Bio: {profileBio || "Add your bio"}</p>
 
 
