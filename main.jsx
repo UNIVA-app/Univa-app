@@ -139,6 +139,51 @@ const [coins, setCoins] = useState(() => {
     return 1000;
   }
 });
+  // UNIVA Diamond Wallet 💎
+const [diamonds, setDiamonds] = useState(() => {
+  try {
+    return JSON.parse(
+      localStorage.getItem("univa-diamonds") || "0"
+    );
+  } catch {
+    return 0;
+  }
+});
+
+// VIP expiration date
+const [vipExpiry, setVipExpiry] = useState(() => {
+  try {
+    return JSON.parse(
+      localStorage.getItem("univa-vip-expiry") || "null"
+    );
+  } catch {
+    return null;
+  }
+});
+
+// Save diamonds
+useEffect(() => {
+  try {
+    localStorage.setItem(
+      "univa-diamonds",
+      JSON.stringify(diamonds)
+    );
+  } catch (error) {
+    console.error("Error saving diamonds:", error);
+  }
+}, [diamonds]);
+
+// Save VIP expiration
+useEffect(() => {
+  try {
+    localStorage.setItem(
+      "univa-vip-expiry",
+      JSON.stringify(vipExpiry)
+    );
+  } catch (error) {
+    console.error("Error saving VIP:", error);
+  }
+}, [vipExpiry]);
 
 const [giftHistory, setGiftHistory] = useState(() => {
   try {
