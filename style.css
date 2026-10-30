@@ -485,3 +485,27 @@ nav button.active {
     transition: none !important;
   }
 }
+.diamond-wallet {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin: 16px 0;
+  padding: 16px;
+  border-radius: 16px;
+  background: #f3f0ff;
+}
+
+.diamond-wallet span {
+  font-weight: 600;
+}
+
+.diamond-wallet strong {
+  font-size: 28px;
+  color: #6c55d9;
+}
+
+.diamond-wallet small {
+  color: #666;
+  text-align: center;
+}
